@@ -15,6 +15,7 @@ enum JavascriptMode {
   disabled,
   unrestricted,
 }
+
 class WebView extends StatefulWidget {
   const WebView({
     Key key,
@@ -39,7 +40,6 @@ class WebView extends StatefulWidget {
 class _WebViewState extends State<WebView> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
-   MethodChannel _channel;
   _WebSettings _settings;
 
   @override
@@ -85,15 +85,9 @@ class _WebViewState extends State<WebView> {
     final WebViewController controller =
         WebViewController._(id, _WebSettings.fromWidget(widget));
     _controller.complete(controller);
-    _channel = MethodChannel('plugins.flutter.io/webview_$id');
-    _channel.setMethodCallHandler(_handleMessages);
     if (widget.onWebViewCreated != null) {
       widget.onWebViewCreated(controller);
     }
-  }
-  //事件监听
-  Future<Null> _handleMessages(MethodCall call) async {
-      widget.onEventChanged(call.arguments);
   }
 }
 
@@ -145,13 +139,35 @@ class _WebSettings {
   }
 }
 
-class WebViewController {
+class WebViewController extends ChangeNotifier {
   WebViewController._(int id, _WebSettings settings)
-      : _channel = MethodChannel('plugins.flutter.io/webview_$id'),
-        _settings = settings;
+      : _channel = MethodChannel('plugins.flutter.io/webview_$id') {
+    _settings = settings;
+    _channel.setMethodCallHandler(_handleMethodCall);
+  }
+
+  Future<dynamic> _handleMethodCall(MethodCall call) async {
+    switch (call.method) {
+      case 'onReceivedTitle':
+        notifyListeners();
+        break;
+      case 'onPageStarted':
+        notifyListeners();
+        break;
+      case 'onPageFinished':
+        notifyListeners();
+        break;
+      case 'onReceivedError':
+        notifyListeners();
+        break;
+      default:
+        throw MissingPluginException();
+    }
+  }
 
   final MethodChannel _channel;
   _WebSettings _settings;
+
   Future<void> loadUrl(String url) async {
     assert(url != null);
     _validateUrlString(url);
@@ -162,10 +178,12 @@ class WebViewController {
     final String url = await _channel.invokeMethod('currentUrl');
     return url;
   }
+
   Future<bool> canGoBack() async {
     final bool canGoBack = await _channel.invokeMethod("canGoBack");
     return canGoBack;
   }
+
   Future<bool> canGoForward() async {
     final bool canGoForward = await _channel.invokeMethod("canGoForward");
     return canGoForward;
