@@ -1,6 +1,7 @@
 .DS_Store
 .atom/
 .idea
+.gradle
 .vscode
 .packages
 .pub/
@@ -9,9 +10,11 @@ ios/.generated/
 packages
 pubspec.lock
 
+android/.gradle/
+android/.idea/
 example/ios/Podfile.lock
-example/android/.gradle/**
-example/android/.idea/**
+example/android/.gradle/
+example/android/.idea/
 example/build/**
 **/Flutter/App.framework/
 **/Flutter/Flutter.framework/

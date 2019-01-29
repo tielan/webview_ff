@@ -80,7 +80,6 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
       super.onPageStarted(view, url, favicon);
       Map<String, Object> data = new HashMap<>();
       data.put("url", url);
-      data.put("type", "startLoad");
       methodChannel.invokeMethod("onPageStarted", data);
     }
 
@@ -90,7 +89,6 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
       Map<String, Object> data = new HashMap<>();
       data.put("url", url);
       methodChannel.invokeMethod("onUrlChanged", data);
-      data.put("type", "finishLoad");
       methodChannel.invokeMethod("onPageFinished", data);
     }
 
@@ -136,7 +134,10 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
       methodChannel.invokeMethod("shouldOverrideUrlLoading", data);
       return true;
     }
+
+
   };
+
   @Override
   public void dispose() {
 

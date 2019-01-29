@@ -72,7 +72,7 @@ class WebViewExample extends StatelessWidget {
           ),
           Expanded(
               child: WebView(
-                  initialUrl: 'https://www.baidu.com',
+                  initialUrl: 'http://www.ifeng.com/',
                   javascriptMode: JavascriptMode.unrestricted,
                   onEventChanged: (event){
                       print(event);
@@ -80,8 +80,10 @@ class WebViewExample extends StatelessWidget {
                   onWebViewCreated: (WebViewController webViewController) {
                     _webViewController = webViewController;
                     webViewController.addListener((){
-                      print('object');
-                      webViewController.loadUrl(webViewController.showOverrideUrl);
+                      print(webViewController.eventMap);
+                      if(webViewController.method == 'shouldOverrideUrlLoading' && webViewController.eventMap['url'] != null){
+                          webViewController.loadUrl(webViewController.eventMap['url']);
+                      }
                     });
                   }))
         ],
