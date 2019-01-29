@@ -123,14 +123,18 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
     @TargetApi(21)
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-      methodChannel.invokeMethod("shouldOverrideUrlLoading", request.getUrl());
-      return false;
+      Map<String, Object> data = new HashMap<>();
+      data.put("url", request.getUrl().toString());
+      methodChannel.invokeMethod("shouldOverrideUrlLoading", data);
+      return true;
     }
 
     @Override
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-      methodChannel.invokeMethod("shouldOverrideUrlLoading", url);
-      return false;
+      Map<String, Object> data = new HashMap<>();
+      data.put("url", url);
+      methodChannel.invokeMethod("shouldOverrideUrlLoading", data);
+      return true;
     }
   };
   @Override

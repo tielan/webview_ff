@@ -145,22 +145,23 @@ class WebViewController extends ChangeNotifier {
     _settings = settings;
     _channel.setMethodCallHandler(_handleMethodCall);
   }
-
+  String showOverrideUrl;
   Future<dynamic> _handleMethodCall(MethodCall call) async {
     switch (call.method) {
       case 'onReceivedTitle':
-        notifyListeners();
+        //notifyListeners();
         break;
       case 'onPageStarted':
-        notifyListeners();
+       // notifyListeners();
         break;
       case 'onPageFinished':
-        notifyListeners();
+       // notifyListeners();
         break;
       case 'onReceivedError':
-        notifyListeners();
+       // notifyListeners();
         break;
       case 'shouldOverrideUrlLoading':
+        showOverrideUrl = call.arguments['url'];
         notifyListeners();
         break;
       default:

@@ -9,13 +9,11 @@ import 'package:webview_flutter/webview_flutter.dart';
 void main() => runApp(MaterialApp(home: WebViewExample()));
 
 class WebViewExample extends StatelessWidget {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+   WebViewController _webViewController;
 
   void onItemClick(int i) async {
-    WebViewController webViewController = await _controller.future;
-    if (await webViewController.canGoBack()) {
-      webViewController.goBack();
+    if (await _webViewController.canGoBack()) {
+      _webViewController.goBack();
     } else {
       print('back');
     }
@@ -80,7 +78,11 @@ class WebViewExample extends StatelessWidget {
                       print(event);
                   },
                   onWebViewCreated: (WebViewController webViewController) {
-                    _controller.complete(webViewController);
+                    _webViewController = webViewController;
+                    webViewController.addListener((){
+                      print('object');
+                      webViewController.loadUrl(webViewController.showOverrideUrl);
+                    });
                   }))
         ],
       ),
