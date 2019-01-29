@@ -160,6 +160,9 @@ class WebViewController extends ChangeNotifier {
       case 'onReceivedError':
         notifyListeners();
         break;
+      case 'shouldOverrideUrlLoading':
+        notifyListeners();
+        break;
       default:
         throw MissingPluginException();
     }
