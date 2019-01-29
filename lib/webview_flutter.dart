@@ -21,13 +21,10 @@ class WebView extends StatefulWidget {
     Key key,
     this.onWebViewCreated,
     this.initialUrl,
-    this.onEventChanged,
     this.javascriptMode = JavascriptMode.unrestricted,
     this.gestureRecognizers,
   })  : assert(javascriptMode != null),
         super(key: key);
-
-  final ValueChanged onEventChanged;
 
   final WebViewCreatedCallback onWebViewCreated;
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
