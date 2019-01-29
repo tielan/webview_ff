@@ -10,6 +10,9 @@ packages
 pubspec.lock
 
 example/ios/Podfile.lock
+example/android/.gradle/**
+example/android/.idea/**
+example/build/**
 **/Flutter/App.framework/
 **/Flutter/Flutter.framework/
 **/Flutter/Generated.xcconfig/
